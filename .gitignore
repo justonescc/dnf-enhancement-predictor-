@@ -1,0 +1,28 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+dist-ssr
+
+# Local storage
+.DS_Store
+*.local
+
+# Environment config (contains sensitive info)
+.env.local
+.env.*.local
+deploy-config.env
+
+# Editor
+.vscode
+.idea
+.vercel
+
+# Local Netlify folder
+.netlify

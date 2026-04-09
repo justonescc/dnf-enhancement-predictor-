@@ -1,0 +1,36 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - heading "DNF增幅预测器" [level=1] [ref=e6]
+    - paragraph [ref=e7]: 基于贝叶斯概率分析的增幅时机预测工具
+  - generic [ref=e8]:
+    - heading "【步骤1：选择增幅目标】" [level=2] [ref=e9]
+    - generic [ref=e10]: 我要增幅：
+    - generic [ref=e11]:
+      - button "+6→+7" [ref=e12] [cursor=pointer]
+      - button "+7→+8" [ref=e13] [cursor=pointer]
+      - button "+8→+9" [ref=e14] [cursor=pointer]
+      - button "+9→+10" [ref=e15] [cursor=pointer]
+      - button "+10→+11" [ref=e16] [cursor=pointer]
+      - button "+11→+12" [ref=e17] [cursor=pointer]
+  - generic [ref=e18]:
+    - heading "【步骤2：垫徽章】" [level=2] [ref=e19]
+    - generic [ref=e20]: 徽章合成结果：
+    - generic [ref=e21]:
+      - button "✅ 成功" [disabled] [ref=e22]
+      - button "❌ 失败" [disabled] [ref=e23]
+    - generic [ref=e24]:
+      - button "🔄 重置本次垫手" [disabled] [ref=e25]
+      - button "📊 查看历史记录" [ref=e26] [cursor=pointer]
+  - generic [ref=e27]:
+    - heading "【实时分析】" [level=2] [ref=e28]
+    - generic [ref=e29]: 请先选择增幅目标并开始垫徽章
+  - generic [ref=e30]:
+    - heading "【增幅记录】" [level=2] [ref=e31]
+    - generic [ref=e32]: 完成增幅后记录结果：
+    - generic [ref=e33]:
+      - button "✅ 成功" [disabled] [ref=e34]
+      - button "❌ 失败" [disabled] [ref=e35]
+      - button "⏭️ 跳过" [ref=e36] [cursor=pointer]
+  - generic [ref=e37]:
+    - paragraph [ref=e38]: ⚠️ 本工具仅供娱乐参考，实际增幅结果以游戏内为准
+    - paragraph [ref=e39]: 数据来源：DNF手游官方公布概率
