@@ -14,6 +14,11 @@ dist-ssr
 .DS_Store
 *.local
 
+# Environment config (contains sensitive info)
+.env.local
+.env.*.local
+deploy-config.env
+
 # Editor
 .vscode
 .idea
