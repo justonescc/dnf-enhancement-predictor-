@@ -1,48 +1,117 @@
 #!/bin/bash
 
-echo "🚀 DNF增幅预测器 - 快速部署脚本"
-echo "================================"
-echo ""
-echo "步骤1：创建GitHub仓库"
-echo "----------------------------"
-echo "1. 访问: https://github.com/new"
-echo "2. 仓库名: dnf-enhancement-predictor"
-echo "3. 选择Public或Private"
-echo "4. 点击Create repository"
-echo ""
-echo "创建完成后，请输入你的GitHub用户名:"
-read github_username
+# 部署脚本 - 一键部署到 GitHub 并自动触发外网部署
 
-if [ -z "$github_username" ]; then
-    echo "❌ 用户名不能为空"
-    exit 1
-fi
+set -e
 
-REPO_URL="https://github.com/$github_username/dnf-enhancement-predictor.git"
+# 颜色定义
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
 
-echo ""
-echo "步骤2：推送代码到GitHub"
-echo "----------------------------"
-git remote add origin $REPO_URL 2>/dev/null || git remote set-url origin $REPO_URL
-git branch -M main
-git push -u origin main
+# 打印带颜色的消息
+print_message() {
+    local color=$1
+    local message=$2
+    echo -e "${color}${message}${NC}"
+}
 
-if [ $? -eq 0 ]; then
+# 检查 Git 状态
+check_git_status() {
+    print_message "$BLUE" "📊 检查 Git 状态..."
+    git status
+
     echo ""
-    echo "✅ 代码推送成功！"
+    read -p "是否继续部署? (y/n) " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        print_message "$YELLOW" "❌ 部署已取消"
+        exit 1
+    fi
+}
+
+# 添加并提交更改
+commit_changes() {
+    print_message "$BLUE" "📝 提交更改..."
+
+    # 获取提交信息
+    if [ -z "$1" ]; then
+        read -p "请输入提交信息: " commit_msg
+    else
+        commit_msg="$1"
+    fi
+
+    git add .
+    git commit -m "$commit_msg" || {
+        print_message "$YELLOW" "⚠️  没有新的更改需要提交"
+    }
+}
+
+# 推送到 GitHub
+push_to_github() {
+    print_message "$BLUE" "🚀 推送到 GitHub..."
+    git push origin main
+
+    if [ $? -eq 0 ]; then
+        print_message "$GREEN" "✅ 成功推送到 GitHub!"
+    else
+        print_message "$RED" "❌ 推送失败!"
+        exit 1
+    fi
+}
+
+# 显示部署信息
+show_deployment_info() {
     echo ""
-    echo "步骤3：部署到Vercel"
-    echo "----------------------------"
-    echo "1. 访问: https://vercel.com"
-    echo "2. 使用GitHub账号登录"
-    echo "3. 点击 New Project"
-    echo "4. 选择 dnf-enhancement-predictor 仓库"
-    echo "5. 点击 Deploy"
+    print_message "$GREEN" "======================================"
+    print_message "$GREEN" "🎉 部署流程已启动!"
+    print_message "$GREEN" "======================================"
     echo ""
-    echo "🎉 部署完成后，你会获得外网访问地址！"
+    print_message "$BLUE" "📦 自动部署中..."
     echo ""
-    echo "你的仓库地址: https://github.com/$github_username/dnf-enhancement-predictor"
-else
-    echo "❌ 推送失败，请检查网络连接或GitHub权限"
-    exit 1
-fi
+    print_message "$YELLOW" "外网访问地址："
+    echo "  • Vercel: https://dnf-enhancement-predictor.vercel.app"
+    echo "  • Netlify: https://你的项目名.netlify.app"
+    echo ""
+    print_message "$BLUE" "⏱️  预计 1-3 分钟后部署完成"
+    echo ""
+    print_message "$BLUE" "📊 查看部署状态："
+    echo "  • Vercel: https://vercel.com/dashboard"
+    echo "  • Netlify: https://app.netlify.com/"
+    echo ""
+}
+
+# 主函数
+main() {
+    print_message "$GREEN" "=========================================="
+    print_message "$GREEN" "   一键部署脚本 - GitHub → 外网"
+    print_message "$GREEN" "=========================================="
+    echo ""
+
+    # 检查参数
+    if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+        echo "用法: ./deploy.sh [提交信息]"
+        echo ""
+        echo "示例:"
+        echo "  ./deploy.sh                    # 交互式输入提交信息"
+        echo "  ./deploy.sh \"fix: 修复 bug\"    # 使用指定的提交信息"
+        echo ""
+        echo "功能:"
+        echo "  1. 检查 Git 状态"
+        echo "  2. 添加并提交更改"
+        echo "  3. 推送到 GitHub"
+        echo "  4. 触发自动部署到 Vercel/Netlify"
+        exit 0
+    fi
+
+    # 执行部署流程
+    check_git_status
+    commit_changes "$1"
+    push_to_github
+    show_deployment_info
+}
+
+# 运行主函数
+main "$@"
