@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 部署脚本 - 一键部署到 GitHub 并自动触发外网部署
+# 部署脚本 - 一键部署到 GitHub Pages
 
 set -e
 
@@ -62,31 +62,43 @@ push_to_github() {
     fi
 }
 
+# 部署到 GitHub Pages
+deploy_to_pages() {
+    print_message "$BLUE" "🌐 部署到 GitHub Pages..."
+    npm run deploy
+
+    if [ $? -eq 0 ]; then
+        print_message "$GREEN" "✅ 成功部署到 GitHub Pages!"
+    else
+        print_message "$RED" "❌ 部署失败!"
+        exit 1
+    fi
+}
+
 # 显示部署信息
 show_deployment_info() {
     echo ""
     print_message "$GREEN" "======================================"
-    print_message "$GREEN" "🎉 部署流程已启动!"
+    print_message "$GREEN" "🎉 部署完成!"
     print_message "$GREEN" "======================================"
     echo ""
-    print_message "$BLUE" "📦 自动部署中..."
+    print_message "$BLUE" "📦 部署信息..."
     echo ""
-    print_message "$YELLOW" "外网访问地址："
-    echo "  • Vercel: https://dnf-enhancement-predictor.vercel.app"
-    echo "  • Netlify: https://你的项目名.netlify.app"
+    print_message "$YELLOW" "访问地址："
+    echo "  • GitHub Pages: https://justonescc.github.io/dnf-enhancement-predictor-/"
+    echo "  • Netlify (备用): https://chipper-otter-26da1b.netlify.app"
     echo ""
-    print_message "$BLUE" "⏱️  预计 1-3 分钟后部署完成"
+    print_message "$BLUE" "⏱️  预计 1-2 分钟后部署完成"
     echo ""
     print_message "$BLUE" "📊 查看部署状态："
-    echo "  • Vercel: https://vercel.com/dashboard"
-    echo "  • Netlify: https://app.netlify.com/"
+    echo "  • GitHub: https://github.com/justonescc/dnf-enhancement-predictor-/settings/pages"
     echo ""
 }
 
 # 主函数
 main() {
     print_message "$GREEN" "=========================================="
-    print_message "$GREEN" "   一键部署脚本 - GitHub → 外网"
+    print_message "$GREEN" "   一键部署脚本 - GitHub Pages"
     print_message "$GREEN" "=========================================="
     echo ""
 
@@ -101,8 +113,8 @@ main() {
         echo "功能:"
         echo "  1. 检查 Git 状态"
         echo "  2. 添加并提交更改"
-        echo "  3. 推送到 GitHub"
-        echo "  4. 触发自动部署到 Vercel/Netlify"
+        echo "  3. 推送到 GitHub main 分支"
+        echo "  4. 部署到 GitHub Pages"
         exit 0
     fi
 
@@ -110,6 +122,7 @@ main() {
     check_git_status
     commit_changes "$1"
     push_to_github
+    deploy_to_pages
     show_deployment_info
 }
 

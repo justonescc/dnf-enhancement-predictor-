@@ -70,5 +70,7 @@ git push -u origin main
 
 ---
 
-**完成后，立即部署到Vercel：**
-https://vercel.com/new?utm_source=github
+**完成后，使用以下命令部署：**
+```bash
+npm run deploy
+```

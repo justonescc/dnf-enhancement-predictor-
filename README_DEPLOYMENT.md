@@ -13,45 +13,46 @@
 │   GitHub    │
 │  代码仓库   │
 └──────┬──────┘
-       │ Webhook
+       │ gh-pages 分支
        ↓
-┌─────────────┐      ┌─────────────┐
-│   Vercel    │      │   Netlify   │
-│  自动部署   │      │  自动部署   │
-└──────┬──────┘      └──────┬──────┘
-       │                    │
-       ↓                    ↓
-┌─────────────┐      ┌─────────────┐
-│外网访问地址  │      │外网访问地址  │
-│.vercel.app  │      │.netlify.app │
-└─────────────┘      └─────────────┘
+┌─────────────┐
+│ GitHub Pages│
+│  静态托管   │
+└──────┬──────┘
+       │
+       ↓
+┌─────────────┐
+│外网访问地址  │
+│github.io    │
+└─────────────┘
 ```
 
-## 📦 已创建的文件
+## 📦 关键文件
 
-1. **DEPLOYMENT_WORKFLOW.md** - 完整部署文档
-2. **QUICK_START.md** - 快速启动指南
-3. **deploy.sh** - 一键部署脚本
-4. **README_DEPLOYMENT.md** - 本文件（方案总结）
+1. **vite.config.js** - 包含 GitHub Pages 路径配置
+2. **package.json** - 包含部署脚本
+3. **netlify.toml** - Netlify 部署配置（备用）
 
 ## 🚀 使用方法
 
-### 最简单的方式
+### 最简单的方式（推荐）
 
 ```bash
 # 1. 修改代码
-# 2. 运行部署脚本
-./deploy.sh "你的提交信息"
+# 2. 运行部署命令
+npm run deploy
 
-# 完成！等待 1-3 分钟自动部署
+# 完成！等待 1-2 分钟自动部署
 ```
 
 ### 手动方式
 
 ```bash
-git add .
-git commit -m "你的提交信息"
-git push origin main
+# 1. 构建项目
+npm run build
+
+# 2. 部署到 GitHub Pages
+npx gh-pages -d dist
 ```
 
 ## 🔑 关键配置
@@ -61,31 +62,36 @@ git push origin main
 origin  git@github.com:justonescc/dnf-enhancement-predictor-.git
 ```
 
-### SSH 密钥
-- 已生成：`~/.ssh/id_ed25519.pub`
-- 已添加到 GitHub
+### Vite 配置
+```javascript
+// vite.config.js
+base: '/dnf-enhancement-predictor-/'
+```
 
-### 自动部署
-- ✅ Vercel：已配置，推送时自动部署
-- ⏳ Netlify：需要在控制台完成配置
+### 部署脚本
+```json
+{
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  }
+}
+```
 
 ## 🌐 外网访问地址
 
-### 当前可用
-- **Vercel**: https://dnf-enhancement-1775720004.vercel.app
+### 生产环境（主要）
+- **GitHub Pages**: https://justonescc.github.io/dnf-enhancement-predictor-/
 
-### 需要配置
-- **Netlify**: 访问 https://app.netlify.com/ 配置自动部署
-
-### 自定义域名（可选）
-可以在 Vercel/Netlify 控制台添加自定义域名
+### 备用环境
+- **Netlify**: https://chipper-otter-26da1b.netlify.app
 
 ## 📋 部署检查清单
 
 在部署前确保：
 
 - [ ] 代码已测试（`npm run build`）
-- [ ] 提交信息清晰（遵循规范）
+- [ ] 路径配置正确（vite.config.js 中的 base）
 - [ ] 环境变量已配置（如需要）
 - [ ] `.gitignore` 已正确配置
 - [ ] SSH 密钥已添加到 GitHub
@@ -94,85 +100,84 @@ origin  git@github.com:justonescc/dnf-enhancement-predictor-.git
 
 ### 已忽略的文件（不会提交到 Git）
 - `.env.local` - 本地环境变量
-- `deploy-config.env` - 部署配置
-- `.vercel/` - Vercel 本地配置
-- `.netlify/` - Netlify 本地配置
 - `node_modules/` - 依赖包
 - `dist/` - 构建输出
+- `.netlify/` - Netlify 本地配置
 
 ### 环境变量管理
 - **本地开发**: `.env.local`（不提交）
-- **生产环境**: 在 Vercel/Netlify 控制台配置
+- **生产环境**: 在 GitHub Settings 中配置（如需要）
 
 ## 🔧 故障排除
 
-### 推送失败
-```bash
-# 检查 SSH 连接
-ssh -T git@github.com
-
-# 重新配置远程
-git remote set-url origin git@github.com:justonescc/dnf-enhancement-predictor-.git
-```
-
 ### 部署失败
 ```bash
-# 本地测试
+# 检查构建
 npm run build
 
-# 查看日志
-# Vercel: https://vercel.com/dashboard
-# Netlify: https://app.netlify.com/
+# 手动部署
+npx gh-pages -d dist -m "Update"
 ```
 
-### 自动部署未触发
-- 检查 GitHub Webhook 设置
-- 确保仓库已连接到 Vercel/Netlify
+### 页面 404
+- 检查 vite.config.js 中的 base 路径是否正确
+- 等待 1-2 分钟让 GitHub Pages 重新部署
+- 确认 gh-pages 分支已推送
+
+### 样式丢失
+- 检查资源路径是否包含正确的 base 路径
+- 清除浏览器缓存重试
 
 ## 📊 监控和维护
 
 ### 查看部署状态
-- Vercel CLI: `vercel list`
-- Netlify CLI: `netlify deploy:list`
+- GitHub: 访问仓库 Settings → Pages
+- 检查 gh-pages 分支的提交历史
 
-### 查看构建日志
-- Vercel: 控制台 → Deployments → 选择部署 → 查看
-- Netlify: 控制台 → Deploys → 选择部署 → 查看
+### 性能优化
+- 代码分割已配置
+- 静态资源缓存已启用
+- CSS 和 JS 已压缩
 
-### 性能监控
-- Vercel Analytics: 自动启用
-- Netlify Analytics: 需要手动启用
+## 🎉 更新部署流程
 
-## 🎉 下一步
-
-1. **测试自动部署**
+1. **修改代码**
    ```bash
-   ./deploy.sh "test: 测试自动部署"
+   # 编辑源代码
    ```
 
-2. **配置 Netlify 自动部署**（可选）
-   - 访问 https://app.netlify.com/
-   - 导入 GitHub 仓库
-   - 启用自动部署
+2. **本地测试**
+   ```bash
+   npm run dev
+   ```
 
-3. **添加自定义域名**（可选）
-   - 在 Vercel/Netlify 控制台添加
-   - 配置 DNS 记录
+3. **部署**
+   ```bash
+   npm run deploy
+   ```
 
-4. **通知团队**
-   - 分享外网访问地址
-   - 更新文档
+4. **验证**
+   - 访问 https://justonescc.github.io/dnf-enhancement-predictor-/
+   - 等待 1-2 分钟查看更新
 
-## 📞 获取帮助
+## 📞 快速参考
 
-- 查看详细文档：`DEPLOYMENT_WORKFLOW.md`
-- 快速参考：`QUICK_START.md`
-- 脚本帮助：`./deploy.sh --help`
+### 常用命令
+```bash
+npm run dev          # 启动开发服务器
+npm run build        # 构建生产版本
+npm run deploy       # 部署到 GitHub Pages
+npm run preview      # 预览构建结果
+```
+
+### 重要链接
+- GitHub 仓库: https://github.com/justonescc/dnf-enhancement-predictor-
+- GitHub Pages: https://justonescc.github.io/dnf-enhancement-predictor-/
 
 ---
 
-**记住**：现在你只需要 `git push`，一切自动完成！🎉
+**记住**：现在只需要 `npm run deploy`，一切自动完成！🎉
 
 ---
 
-*创建日期：2026-04-09*
+*更新日期：2026-04-09*

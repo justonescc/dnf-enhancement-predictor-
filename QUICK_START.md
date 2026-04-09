@@ -3,47 +3,44 @@
 ## 一键部署（最简单）
 
 ```bash
-# 方式 1：使用脚本（推荐）
+# 推荐方式：使用部署脚本
 ./deploy.sh "fix: 修复了计算错误"
 
-# 方式 2：手动命令
-git add .
-git commit -m "你的提交信息"
-git push origin main
+# 或者直接部署
+npm run deploy
 ```
 
 ## 📱 外网访问地址
 
-- **Vercel**: https://dnf-enhancement-predictor.vercel.app
-- **Netlify**: （配置后显示）
+- **GitHub Pages**: https://justonescc.github.io/dnf-enhancement-predictor-/ （主要）
+- **Netlify**: https://chipper-otter-26da1b.netlify.app （备用）
 
 ## 🔄 完整工作流
 
 ```
-本地开发 → Git 提交 → GitHub 推送 → 自动部署 → 外网访问
-    ↓           ↓            ↓            ↓          ↓
-  修改代码   git add .   git push    等待1-3分钟   全球可访问
+本地开发 → Git 提交 → 推送到 GitHub Pages → 外网访问
+    ↓           ↓              ↓                  ↓
+  修改代码   git add .    npm run deploy      全球可访问
             git commit
 ```
 
 ## 📝 常用命令
 
 ```bash
-# 查看状态
-git status
+# 开发
+npm run dev              # 启动开发服务器
 
-# 添加所有更改
-git add .
+# 构建
+npm run build            # 构建生产版本
 
-# 提交更改
-git commit -m "描述你的修改"
+# 部署
+npm run deploy           # 部署到 GitHub Pages
 
-# 推送到 GitHub
-git push origin main
-
-# 查看部署日志
-vercel logs     # Vercel
-netlify logs    # Netlify
+# Git 操作
+git status               # 查看状态
+git add .                # 添加所有更改
+git commit -m "描述"      # 提交更改
+git push origin main     # 推送到 GitHub
 ```
 
 ## 🎯 提交信息格式
@@ -59,9 +56,10 @@ git commit -m "refactor: 代码重构"
 ## ⚡ 快速部署步骤
 
 1. **修改代码**
-2. **运行**: `./deploy.sh "你的提交信息"`
-3. **等待**: 1-3 分钟自动部署
-4. **访问**: 外网地址查看更新
+2. **本地测试**: `npm run dev`
+3. **部署**: `npm run deploy`
+4. **访问**: https://justonescc.github.io/dnf-enhancement-predictor-/
+5. **等待**: 1-2 分钟让 GitHub Pages 更新
 
 ## 🔧 遇到问题？
 
@@ -79,18 +77,23 @@ git remote set-url origin git@github.com:justonescc/dnf-enhancement-predictor-.g
 # 本地测试构建
 npm run build
 
-# 查看 Vercel 部署日志
-# 访问: https://vercel.com/dashboard
+# 手动部署
+npx gh-pages -d dist
 ```
 
+### 页面 404
+- 检查 vite.config.js 中的 base 路径
+- 等待 1-2 分钟让 GitHub Pages 处理
+- 访问 GitHub 仓库的 Pages 设置
+
 ### 查看部署状态
-- Vercel: https://vercel.com/dashboard
-- Netlify: https://app.netlify.com/
+- GitHub: 仓库 Settings → Pages
+- 检查 gh-pages 分支的提交历史
 
 ## 📚 详细文档
 
-查看完整部署流程：[DEPLOYMENT_WORKFLOW.md](./DEPLOYMENT_WORKFLOW.md)
+查看完整部署流程：[README_DEPLOYMENT.md](./README_DEPLOYMENT.md)
 
 ---
 
-**记住**：只需要 `git push origin main`，一切自动完成！✨
+**记住**：只需要 `npm run deploy`，一切自动完成！✨

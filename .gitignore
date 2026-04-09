@@ -22,7 +22,6 @@ deploy-config.env
 # Editor
 .vscode
 .idea
-.vercel
 
 # Local Netlify folder
 .netlify

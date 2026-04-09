@@ -8,11 +8,12 @@
 - 📊 **实时反馈**：即时显示好运概率和增幅建议
 - 💾 **数据持久化**：自动保存历史记录到本地
 - 📱 **响应式设计**：支持手机和电脑访问
-- 🌐 **外网访问**：部署到Vercel提供全球访问
+- 🌐 **外网访问**：部署到 GitHub Pages 提供全球访问
 
 ## 🌐 在线访问
 
-**外网地址**：https://chipper-otter-26da1b.netlify.app
+**主要地址**：https://justonescc.github.io/dnf-enhancement-predictor-/
+**备用地址**：https://chipper-otter-26da1b.netlify.app
 
 无需安装，直接使用！
 
@@ -85,12 +86,12 @@ P(好运|观察数据) = P(观察数据|好运) × P(好运) / P(观察数据)
 - [增幅概率数据](https://dnf.52pk.com/jingy/7597755.shtml)
 - [徽章合成指南](https://dnf.17173.com/content/05252024/063018014.shtml)
 
-## 部署到Vercel
+## 部署到 GitHub Pages
 
-1. 将代码推送到GitHub
-2. 访问 [Vercel](https://vercel.com)
-3. 导入GitHub仓库
-4. 自动部署，获得外网访问链接
+1. 将代码推送到 GitHub
+2. 运行 `npm run deploy`
+3. 等待 1-2 分钟
+4. 访问 https://justonescc.github.io/dnf-enhancement-predictor-/
 
 ## 免责声明
 
