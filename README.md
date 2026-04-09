@@ -12,7 +12,7 @@
 
 ## 🌐 在线访问
 
-**外网地址**：https://dnf-enhancement-predictor.vercel.app
+**外网地址**：https://chipper-otter-26da1b.netlify.app
 
 无需安装，直接使用！
 
